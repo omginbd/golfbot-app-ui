@@ -4,7 +4,11 @@ import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
-import { withStyles } from '@material-ui/core/styles'
+import {
+  createMuiTheme,
+  MuiThemeProvider,
+  withStyles
+} from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -20,6 +24,12 @@ const styles = {
   },
   list: {
     width: 250
+  },
+  icon: {
+    color: 'white'
+  },
+  title: {
+    color: 'white'
   }
 }
 
@@ -36,6 +46,13 @@ function NavItems (props) {
     </List>
   )
 }
+
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: '#4D8741' },
+    secondary: { main: '#274488' }
+  }
+})
 
 class App extends React.Component {
   constructor () {
@@ -56,32 +73,36 @@ class App extends React.Component {
     const { drawerOpen } = this.state
     return (
       <Router>
-        <div>
-          <Drawer open={drawerOpen} onClose={this.toggleDrawer}>
-            <div className={classes.list}>
-              <NavItems closeDrawer={this.toggleDrawer} />
-            </div>
-          </Drawer>
-          <AppBar position='static'>
-            <Toolbar>
-              <IconButton
-                className={classes.menuButton}
-                onClick={this.toggleDrawer}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant='title'>Scorecard</Typography>
-            </Toolbar>
-          </AppBar>
-          {routes.map((route, index) => (
-            <Route
-              component={route.component}
-              exact={route.exact}
-              key={index}
-              path={route.path}
-            />
-          ))}
-        </div>
+        <MuiThemeProvider theme={theme}>
+          <div>
+            <Drawer open={drawerOpen} onClose={this.toggleDrawer}>
+              <div className={classes.list}>
+                <NavItems closeDrawer={this.toggleDrawer} />
+              </div>
+            </Drawer>
+            <AppBar position='static'>
+              <Toolbar>
+                <IconButton
+                  className={classes.menuButton}
+                  onClick={this.toggleDrawer}
+                >
+                  <MenuIcon className={classes.icon} />
+                </IconButton>
+                <Typography className={classes.title} variant='title'>
+                  Scorecard
+                </Typography>
+              </Toolbar>
+            </AppBar>
+            {routes.map((route, index) => (
+              <Route
+                component={route.component}
+                exact={route.exact}
+                key={index}
+                path={route.path}
+              />
+            ))}
+          </div>
+        </MuiThemeProvider>
       </Router>
     )
   }

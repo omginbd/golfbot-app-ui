@@ -1,6 +1,7 @@
 import All from './all'
 import Home from './home'
 import Me from './me'
+import Rules from './rules'
 
 export default [
   {
@@ -13,6 +14,11 @@ export default [
     path: '/me',
     title: 'My Scorecard',
     component: Me
+  },
+  {
+    path: '/rules',
+    title: 'Rules',
+    component: Rules
   },
   {
     path: '/all',

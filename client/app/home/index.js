@@ -5,8 +5,8 @@ import React from 'react'
 import View from './view'
 
 export default class Home extends React.Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
       loading: true,
       name: ''
@@ -14,13 +14,12 @@ export default class Home extends React.Component {
 
     lf.getItem('2018-golfbot-user-id').then(userId => {
       if (!userId) {
-        this.setState({ loading: false, userId: null })
+        this.setState({ loading: false })
       } else {
-        this.setState({ loading: false, userId })
+        props.history.push('/me')
       }
     })
 
-    // this.fetchUser = this.fetchUser.bind(this)
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -38,7 +37,7 @@ export default class Home extends React.Component {
       .post('http://localhost:3000/api/participants', { name })
       .then(({ data }) => {
         lf.setItem('2018-golfbot-user-id', data._id).then(() => {
-          history.push('/me', { user: data })
+          history.push('/me')
         })
       })
   }

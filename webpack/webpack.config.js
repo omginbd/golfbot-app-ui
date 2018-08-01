@@ -19,6 +19,9 @@ module.exports = {
       }
     ]
   },
+  devServer: {
+    historyApiFallback: true
+  },
   plugins: [
     new HtmlWebpackPlugin({ template: './client/index.html' }),
     new LodashModuleReplacementPlugin()
