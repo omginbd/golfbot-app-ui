@@ -8,17 +8,32 @@
     "start": "webpack-dev-server --config webpack/webpack.config.js"
   },
   "dependencies": {
+    "@material-ui/core": "1.4.1",
+    "@material-ui/icons": "2.0.0",
+    "axios": "0.18.0",
     "babel-core": "6.26.3",
     "babel-loader": "7.1.5",
+    "babel-plugin-lodash": "3.3.4",
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
+    "bluebird": "3.5.1",
     "html-webpack-plugin": "3.2.0",
+    "localforage": "1.7.2",
+    "lodash": "4.17.10",
+    "lodash-webpack-plugin": "0.11.5",
     "react": "16.4.1",
     "react-dom": "16.4.1",
+    "react-router-dom": "4.3.1",
     "webpack": "4.16.1"
   },
   "devDependencies": {
+    "babel-eslint": "8.2.6",
+    "prettier-standard": "8.0.1",
+    "standard": "11.0.1",
     "webpack-cli": "3.0.8",
     "webpack-dev-server": "3.1.4"
+  },
+  "standard": {
+    "parser": "babel-eslint"
   }
 }

@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 module.exports = {
   mode: 'development',
@@ -12,13 +13,14 @@ module.exports = {
       {
         test: /\.js$/,
         use: {
-          loader: 'babel-loader',
+          loader: 'babel-loader'
         },
         exclude: [/node_modules/]
       }
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({template: './client/index.html'})
+    new HtmlWebpackPlugin({ template: './client/index.html' }),
+    new LodashModuleReplacementPlugin()
   ]
 }
