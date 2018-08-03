@@ -36,7 +36,7 @@ export default class All extends React.Component {
 
   fetchData () {
     const timer = setTimeout(this.fetchData, 5000)
-    axios.get('http://localhost:3000/api/participants').then(({ data }) => {
+    axios.get(`${process.env.API_HOST}/api/participants`).then(({ data }) => {
       this.setState({ loading: false, participants: data, timer })
     })
   }
@@ -68,7 +68,7 @@ export default class All extends React.Component {
 
   deletePlayer (player) {
     axios
-      .delete(`http://localhost:3000/api/participants/${player._id}`)
+      .delete(`${process.env.API_HOST}/api/participants/${player._id}`)
       .then(this.fetchData)
   }
 

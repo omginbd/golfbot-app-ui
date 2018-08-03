@@ -1,5 +1,7 @@
+const config = require('config')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = {
   mode: 'development',
@@ -20,6 +22,7 @@ module.exports = {
     ]
   },
   devServer: {
+    contentBase: './dist',
     historyApiFallback: true
   },
   plugins: [
@@ -27,6 +30,9 @@ module.exports = {
       filename: 'dist/index.html',
       template: './client/index.html'
     }),
-    new LodashModuleReplacementPlugin()
+    new LodashModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.API_HOST': JSON.stringify(config.get('api_host'))
+    })
   ]
 }

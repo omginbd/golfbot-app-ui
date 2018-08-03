@@ -21,7 +21,7 @@ export default class Me extends React.Component {
       lf
         .getItem('2018-golfbot-user-id')
         .then(userId => {
-          return axios.get(`http://localhost:3000/api/participants/${userId}`)
+          return axios.get(`${process.env.API_HOST}/api/participants/${userId}`)
         })
         .then(({ data: user }) => {
           this.setState({ user, loading: false })
@@ -29,7 +29,7 @@ export default class Me extends React.Component {
         .catch(() => props.history.push('/home'))
     } else {
       axios
-        .get(`http://localhost:3000/api/participants/${props.match.params.id}`)
+        .get(`${process.env.API_HOST}/api/participants/${props.match.params.id}`)
         .then(({ data: user }) => this.setState({ user, loading: false }))
     }
 
@@ -48,7 +48,7 @@ export default class Me extends React.Component {
     const { user } = this.state
     user.scores[hole] = clamp(+e.target.value, 0, 9)
     axios
-      .put(`http://localhost:3000/api/participants/${user._id}`, user)
+      .put(`${process.env.API_HOST}/api/participants/${user._id}`, user)
       .then(() => this.setState({ saving: false }))
     this.setState({ user, saving: true })
   }
@@ -58,7 +58,7 @@ export default class Me extends React.Component {
     const { user } = this.state
     user.name = e.target.value
     axios
-      .put(`http://localhost:3000/api/participants/${user._id}`, user)
+      .put(`${process.env.API_HOST}/api/participants/${user._id}`, user)
       .then(() => this.setState({ saving: false }))
     this.setState({ user, saving: true })
   }

@@ -43,7 +43,7 @@ export default class Home extends React.Component {
     if (name.split(' ').length !== 2) return this.setState({ error: ERR2 })
 
     axios
-      .post('http://localhost:3000/api/participants', { name })
+      .post(`${process.env.API_HOST}/api/participants`, { name })
       .then(({ data }) => {
         lf.setItem('2018-golfbot-user-id', data._id).then(() => {
           history.push('/me')
