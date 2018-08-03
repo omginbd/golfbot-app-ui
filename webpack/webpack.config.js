@@ -4,7 +4,7 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const webpack = require('webpack')
 
 module.exports = {
-  mode: process.env.NODE_ENV,
+  mode: 'development',
   entry: './client/index.js',
   output: {
     path: `${process.cwd()}/dist/`,
