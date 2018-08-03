@@ -4,12 +4,16 @@ import React from 'react'
 
 import View from './view'
 
+const ERR1 = 'Name cannot be blank'
+const ERR2 = 'Please enter your first and last name'
+
 export default class Home extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       loading: true,
-      name: ''
+      name: '',
+      error: false
     }
 
     lf.getItem('2018-golfbot-user-id').then(userId => {
@@ -33,6 +37,11 @@ export default class Home extends React.Component {
     event.preventDefault()
     const { name } = this.state
     const { history } = this.props
+
+    // Validate Name
+    if (!name) return this.setState({ error: ERR1 })
+    if (name.split(' ').length !== 2) return this.setState({ error: ERR2 })
+
     axios
       .post('http://localhost:3000/api/participants', { name })
       .then(({ data }) => {
@@ -43,10 +52,11 @@ export default class Home extends React.Component {
   }
 
   render () {
-    const { loading, name, userId } = this.state
+    const { error, loading, name, userId } = this.state
     if (loading) return 'loading...'
     return (
       <View
+        error={error}
         userId={userId}
         onChange={this.onChange}
         onSubmit={this.onSubmit}

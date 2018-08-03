@@ -23,7 +23,10 @@ module.exports = {
     historyApiFallback: true
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: './client/index.html' }),
+    new HtmlWebpackPlugin({
+      filename: 'dist/index.html',
+      template: './client/index.html'
+    }),
     new LodashModuleReplacementPlugin()
   ]
 }

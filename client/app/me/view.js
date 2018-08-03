@@ -1,4 +1,4 @@
-import { compact, map, range, slice } from 'lodash'
+import { map, range } from 'lodash'
 import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import { withStyles } from '@material-ui/core/styles'
@@ -85,7 +85,15 @@ const Saving = styled.div`
 `
 
 function view (props) {
-  const { calculateCurrentRound, classes, saving, round, user } = props
+  const {
+    adminMode,
+    calculateCurrentRound,
+    classes,
+    onNameChange,
+    round,
+    saving,
+    user
+  } = props
   return (
     <Wrapper>
       <Saving show={saving}>
@@ -96,7 +104,8 @@ function view (props) {
           <Icon>navigate_before</Icon>
         </IconButton>
         <Title>
-          {user.name}
+          {!adminMode && <div>{user.name}</div>}
+          {adminMode && <TextField onChange={onNameChange} value={user.name} />}
           <Subtitle>Round {round + 1}</Subtitle>
           <Subtitle>{calculateCurrentRound()}</Subtitle>
         </Title>

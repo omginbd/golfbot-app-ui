@@ -7,28 +7,40 @@ import View from './view'
 import course from '../course'
 
 export default class Me extends React.Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
+      adminMode: false,
       loading: true,
       saving: false,
       user: {},
       round: 0
     }
 
-    lf
-      .getItem('2018-golfbot-user-id')
-      .then(userId => {
-        return axios.get(`http://localhost:3000/api/participants/${userId}`)
-      })
-      .then(({ data: user }) => {
-        this.setState({ user, loading: false })
-      })
+    if (!props.match.params.id) {
+      lf
+        .getItem('2018-golfbot-user-id')
+        .then(userId => {
+          return axios.get(`http://localhost:3000/api/participants/${userId}`)
+        })
+        .then(({ data: user }) => {
+          this.setState({ user, loading: false })
+        })
+        .catch(() => props.history.push('/home'))
+    } else {
+      axios
+        .get(`http://localhost:3000/api/participants/${props.match.params.id}`)
+        .then(({ data: user }) => this.setState({ user, loading: false }))
+    }
+
+    this.setupAdminMode()
 
     this.calculateCurrentRound = this.calculateCurrentRound.bind(this)
-    this.onChangeScore = this.onChangeScore.bind(this)
     this.navigateNext = this.navigateNext.bind(this)
     this.navigatePrevious = this.navigatePrevious.bind(this)
+    this.onChangeScore = this.onChangeScore.bind(this)
+    this.onNameChange = this.onNameChange.bind(this)
+    this.toggleAdminMode = this.toggleAdminMode.bind(this)
   }
 
   onChangeScore (e, hole) {
@@ -39,6 +51,26 @@ export default class Me extends React.Component {
       .put(`http://localhost:3000/api/participants/${user._id}`, user)
       .then(() => this.setState({ saving: false }))
     this.setState({ user, saving: true })
+  }
+
+  onNameChange (e) {
+    e.preventDefault()
+    const { user } = this.state
+    user.name = e.target.value
+    axios
+      .put(`http://localhost:3000/api/participants/${user._id}`, user)
+      .then(() => this.setState({ saving: false }))
+    this.setState({ user, saving: true })
+  }
+
+  setupAdminMode () {
+    window.onkeydown = e => {
+      if (e.keyCode === 49) this.toggleAdminMode()
+    }
+  }
+
+  toggleAdminMode () {
+    this.setState({ adminMode: !this.state.adminMode })
   }
 
   calculateCurrentRound () {
@@ -63,19 +95,20 @@ export default class Me extends React.Component {
 
   navigatePrevious () {
     const { round } = this.state
-    console.log(round)
     this.setState({ round: clamp(round - 1, 0, 3) })
   }
 
   render () {
-    const { loading, round, saving, user } = this.state
+    const { adminMode, loading, round, saving, user } = this.state
     if (loading) return 'loading'
     return (
       <View
+        adminMode={adminMode}
         calculateCurrentRound={this.calculateCurrentRound}
         navigateNext={this.navigateNext}
         navigatePrevious={this.navigatePrevious}
         onChangeScore={this.onChangeScore}
+        onNameChange={this.onNameChange}
         round={round}
         user={user}
         saving={saving}

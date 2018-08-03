@@ -109,13 +109,22 @@ const styles = {
 }
 
 function view (props) {
-  const { classes, getDisplayName, calculateOverall, determineStyle } = props
+  const {
+    adminMode,
+    calculateOverall,
+    classes,
+    deletePlayer,
+    determineStyle,
+    getDisplayName,
+    goToPlayerScorecard
+  } = props
   return (
     <div className={classes.wrapper}>
       <div>
         <Table className={classes.table}>
           <TableHead>
             <TableRow className={classes.tableRow}>
+              {adminMode && <TableCell>X</TableCell>}
               <TableCell className={[classes.cell, classes.nameCell].join(' ')}>
                 Name
               </TableCell>
@@ -146,8 +155,12 @@ function view (props) {
           <TableBody>
             {map(props.participants, (p, i) => (
               <TableRow key={i}>
+                {adminMode && (
+                  <TableCell onClick={() => deletePlayer(p)}> X</TableCell>
+                )}
                 <TableCell
                   className={[classes.cell, classes.nameCell].join(' ')}
+                  onClick={() => adminMode && goToPlayerScorecard(p)}
                 >
                   {getDisplayName(p.name)}
                 </TableCell>

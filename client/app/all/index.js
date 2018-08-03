@@ -10,12 +10,39 @@ export default class All extends React.Component {
     super()
     this.state = {
       loading: true,
-      participants: []
+      participants: [],
+      timer: null,
+      adminMode: false
     }
 
+    this.setupAdminMode()
+
+    this.deletePlayer = this.deletePlayer.bind(this)
+    this.fetchData = this.fetchData.bind(this)
+    this.toggleAdminMode = this.toggleAdminMode.bind(this)
+    this.fetchData()
+  }
+
+  componentWillUnmount () {
+    const { timer } = this.state
+    clearTimeout(timer)
+  }
+
+  setupAdminMode () {
+    window.onkeydown = e => {
+      if (e.keyCode === 49) this.toggleAdminMode()
+    }
+  }
+
+  fetchData () {
+    const timer = setTimeout(this.fetchData, 5000)
     axios.get('http://localhost:3000/api/participants').then(({ data }) => {
-      this.setState({ loading: false, participants: data })
+      this.setState({ loading: false, participants: data, timer })
     })
+  }
+
+  toggleAdminMode () {
+    this.setState({ adminMode: !this.state.adminMode })
   }
 
   getDisplayName (name) {
@@ -37,6 +64,12 @@ export default class All extends React.Component {
       display:
         score < 0 ? <div style={{ color: 'red' }}>{score}</div> : `+${score}`
     }
+  }
+
+  deletePlayer (player) {
+    axios
+      .delete(`http://localhost:3000/api/participants/${player._id}`)
+      .then(this.fetchData)
   }
 
   determineStyle (score, hole) {
@@ -66,14 +99,18 @@ export default class All extends React.Component {
   }
 
   render () {
-    const { loading, participants } = this.state
+    const { adminMode, loading, participants } = this.state
+    const { history } = this.props
     if (loading) return 'loading...'
     return (
       <View
-        participants={participants}
-        getDisplayName={this.getDisplayName}
+        adminMode={adminMode}
         calculateOverall={this.calculateOverall}
+        deletePlayer={this.deletePlayer}
         determineStyle={this.determineStyle}
+        getDisplayName={this.getDisplayName}
+        goToPlayerScorecard={p => history.push(`/me/${p._id}`)}
+        participants={participants}
       />
     )
   }
