@@ -31,7 +31,7 @@ module.exports = {
     }),
     new LodashModuleReplacementPlugin(),
     new webpack.DefinePlugin({
-      'process.env.API_HOST': JSON.stringify(config.get('api_host'))
+      'process.env.API_HOST': 'https://api.wiffleball.xyz'
     })
   ]
 }
