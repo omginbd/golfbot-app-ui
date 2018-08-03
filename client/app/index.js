@@ -16,6 +16,7 @@ import React from 'react'
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 
 import routes from './routes'
+import Admin from './admin'
 
 const styles = {
   menuButton: {
@@ -38,7 +39,7 @@ function NavItems (props) {
     <List>
       {routes.map((route, index) => (
         <ListItem button key={index} onClick={props.closeDrawer}>
-          <Link to={route.path}>
+          <Link to={route.link || route.path}>
             <ListItemText primary={route.title} />
           </Link>
         </ListItem>
@@ -101,6 +102,7 @@ class App extends React.Component {
                 path={route.path}
               />
             ))}
+            <Route component={Admin} path='/admin/:id' />
           </div>
         </MuiThemeProvider>
       </Router>

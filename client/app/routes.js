@@ -11,7 +11,7 @@ export default [
     component: Home
   },
   {
-    path: '/me/:id',
+    path: '/me',
     title: 'My Scorecard',
     component: Me
   },

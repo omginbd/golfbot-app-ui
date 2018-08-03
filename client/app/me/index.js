@@ -10,14 +10,18 @@ export default class Me extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      adminMode: false,
+      adminMode: props.admin,
       loading: true,
       saving: false,
       user: {},
       round: 0
     }
 
-    if (!props.match.params.id) {
+    if (props.admin) {
+      axios
+        .get(`${process.env.API_HOST}/api/participants/${props.id}`)
+        .then(({ data: user }) => this.setState({ user, loading: false }))
+    } else {
       lf
         .getItem('2018-golfbot-user-id')
         .then(userId => {
@@ -27,10 +31,6 @@ export default class Me extends React.Component {
           this.setState({ user, loading: false })
         })
         .catch(() => props.history.push('/home'))
-    } else {
-      axios
-        .get(`${process.env.API_HOST}/api/participants/${props.match.params.id}`)
-        .then(({ data: user }) => this.setState({ user, loading: false }))
     }
 
     this.setupAdminMode()

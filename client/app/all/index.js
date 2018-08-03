@@ -109,7 +109,7 @@ export default class All extends React.Component {
         deletePlayer={this.deletePlayer}
         determineStyle={this.determineStyle}
         getDisplayName={this.getDisplayName}
-        goToPlayerScorecard={p => history.push(`/me/${p._id}`)}
+        goToPlayerScorecard={p => history.push(`/admin/${p._id}`)}
         participants={participants}
       />
     )
