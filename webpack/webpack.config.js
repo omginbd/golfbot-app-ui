@@ -4,11 +4,11 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const webpack = require('webpack')
 
 module.exports = {
-  mode: 'development',
+  mode: process.env.NODE_ENV,
   entry: './client/index.js',
   output: {
-    path: process.cwd(),
-    filename: './dist/bundle.js'
+    path: `${process.cwd()}/dist/`,
+    filename: 'bundle.js'
   },
   module: {
     rules: [
@@ -27,7 +27,6 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'dist/index.html',
       template: './client/index.html'
     }),
     new LodashModuleReplacementPlugin(),
