@@ -1,4 +1,3 @@
-const config = require('config')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const webpack = require('webpack')
@@ -31,7 +30,7 @@ module.exports = {
     }),
     new LodashModuleReplacementPlugin(),
     new webpack.DefinePlugin({
-      'process.env.API_HOST': 'https://api.wiffleball.xyz'
+      'process.env.API_HOST': '"https://api.wiffleball.xyz"'
     })
   ]
 }
