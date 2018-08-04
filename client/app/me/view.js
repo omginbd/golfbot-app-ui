@@ -118,6 +118,7 @@ function view (props) {
           <TableRow>
             <TableCell className={classes.cell}>Hole</TableCell>
             <TableCell className={classes.cell}>Dist (Feet)</TableCell>
+            <TableCell className={classes.cell}>Handicap</TableCell>
             <TableCell className={classes.cell}>Par</TableCell>
             <TableCell className={classes.cell}>Score</TableCell>
           </TableRow>
@@ -128,6 +129,9 @@ function view (props) {
               <TableCell className={classes.cell}>{i % 7 + 1}</TableCell>
               <TableCell className={classes.cell}>
                 {course.distances[i]}
+              </TableCell>
+              <TableCell className={classes.cell}>
+                {course.handicaps[i]}
               </TableCell>
               <TableCell className={classes.cell}>{course.holes[i]}</TableCell>
               <TableCell className={classes.inputCell}>
