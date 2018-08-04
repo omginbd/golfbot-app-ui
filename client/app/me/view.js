@@ -126,7 +126,9 @@ function view (props) {
           {map(range(7), i => (
             <TableRow key={i}>
               <TableCell className={classes.cell}>{i % 7 + 1}</TableCell>
-              <TableCell className={classes.cell}>150</TableCell>
+              <TableCell className={classes.cell}>
+                {course.distances[i]}
+              </TableCell>
               <TableCell className={classes.cell}>{course.holes[i]}</TableCell>
               <TableCell className={classes.inputCell}>
                 <TextField
