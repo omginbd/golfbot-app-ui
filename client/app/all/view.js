@@ -118,6 +118,9 @@ function view (props) {
     getDisplayName,
     goToPlayerScorecard
   } = props
+  const sorted = props.participants.sort(
+    (a, b) => calculateOverall(a.scores).raw - calculateOverall(b.scores).raw
+  )
   return (
     <div className={classes.wrapper}>
       <div>
@@ -153,55 +156,47 @@ function view (props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {map(
-              sortBy(props.participants, p => calculateOverall(p.scores).raw),
-              (p, i) => (
-                <TableRow key={i}>
-                  {adminMode && (
-                    <TableCell onClick={() => deletePlayer(p)}> X</TableCell>
-                  )}
-                  <TableCell
-                    className={[classes.cell, classes.nameCell].join(' ')}
-                    onClick={() => adminMode && goToPlayerScorecard(p)}
-                  >
-                    {getDisplayName(p.name)}
-                  </TableCell>
-                  <TableCell
-                    className={[
-                      classes.cell,
-                      classes.overallCell,
-                      classes.endCell
-                    ].join(' ')}
-                  >
-                    {calculateOverall(p.scores).display}
-                  </TableCell>
-                  {map(range(28), hole => {
-                    const { first, second } = determineStyle(
-                      p.scores[hole],
-                      hole
-                    )
-                    return (
-                      <TableCell
-                        className={[
-                          classes.cell,
-                          hole % 7 + 1 === 7 ? classes.endCell : ''
-                        ].join(' ')}
-                        key={hole}
-                      >
-                        <span className={classes[first] || ''}>
-                          <span className={classes[second] || ''}>
-                            {p.scores[hole] || ''}
-                          </span>
+            {map(sorted, (p, i) => (
+              <TableRow key={i}>
+                {adminMode && (
+                  <TableCell onClick={() => deletePlayer(p)}> X</TableCell>
+                )}
+                <TableCell
+                  className={[classes.cell, classes.nameCell].join(' ')}
+                  onClick={() => adminMode && goToPlayerScorecard(p)}
+                >
+                  {getDisplayName(p.name)}
+                </TableCell>
+                <TableCell
+                  className={[
+                    classes.cell,
+                    classes.overallCell,
+                    classes.endCell
+                  ].join(' ')}
+                >
+                  {calculateOverall(p.scores).display}
+                </TableCell>
+                {map(range(28), hole => {
+                  const { first, second } = determineStyle(p.scores[hole], hole)
+                  return (
+                    <TableCell
+                      className={[
+                        classes.cell,
+                        hole % 7 + 1 === 7 ? classes.endCell : ''
+                      ].join(' ')}
+                      key={hole}
+                    >
+                      <span className={classes[first] || ''}>
+                        <span className={classes[second] || ''}>
+                          {p.scores[hole] || ''}
                         </span>
-                      </TableCell>
-                    )
-                  })}
-                  <TableCell className={classes.cell}>
-                    {sum(p.scores)}
-                  </TableCell>
-                </TableRow>
-              )
-            )}
+                      </span>
+                    </TableCell>
+                  )
+                })}
+                <TableCell className={classes.cell}>{sum(p.scores)}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>
