@@ -1,3 +1,4 @@
+import lf from 'localforage'
 import AppBar from '@material-ui/core/AppBar'
 import Drawer from '@material-ui/core/Drawer'
 import IconButton from '@material-ui/core/IconButton'
@@ -14,6 +15,7 @@ import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/icons/Menu'
 import React from 'react'
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
+import styled from 'styled-components'
 
 import routes from './routes'
 import Admin from './admin'
@@ -33,6 +35,14 @@ const styles = {
     color: 'white'
   }
 }
+
+const ClearCacheButton = styled.button`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 250px;
+  z-index: 1000000;
+`
 
 function NavItems (props) {
   return (
@@ -69,6 +79,10 @@ class App extends React.Component {
     this.setState({ drawerOpen: !drawerOpen })
   }
 
+  clearSession () {
+    lf.removeItem('2018-golfbot-user-id')
+  }
+
   render () {
     const { classes } = this.props
     const { drawerOpen } = this.state
@@ -81,6 +95,11 @@ class App extends React.Component {
                 <NavItems closeDrawer={this.toggleDrawer} />
               </div>
             </Drawer>
+            {drawerOpen && (
+              <ClearCacheButton onClick={this.clearSession}>
+                Clear Session
+              </ClearCacheButton>
+            )}
             <AppBar position='static'>
               <Toolbar>
                 <IconButton

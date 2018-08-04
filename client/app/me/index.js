@@ -30,7 +30,7 @@ export default class Me extends React.Component {
         .then(({ data: user }) => {
           this.setState({ user, loading: false })
         })
-        .catch(() => props.history.push('/home'))
+        .catch(() => this.setState({ error: true }))
     }
 
     this.setupAdminMode()
@@ -99,7 +99,10 @@ export default class Me extends React.Component {
   }
 
   render () {
-    const { adminMode, loading, round, saving, user } = this.state
+    const { adminMode, error, loading, round, saving, user } = this.state
+    if (error) {
+      return 'There was an error! Try refreshing the page, if the problem persists, talk to a tournament administrator.'
+    }
     if (loading) return 'loading'
     return (
       <View
