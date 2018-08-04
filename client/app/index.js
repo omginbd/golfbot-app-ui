@@ -19,6 +19,7 @@ import styled from 'styled-components'
 
 import routes from './routes'
 import Admin from './admin'
+import Footer from './footer'
 
 const styles = {
   menuButton: {
@@ -122,6 +123,7 @@ class App extends React.Component {
               />
             ))}
             <Route component={Admin} path='/admin/:id' />
+            <Footer />
           </div>
         </MuiThemeProvider>
       </Router>
