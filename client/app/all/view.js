@@ -1,4 +1,4 @@
-import { map, range, sum } from 'lodash'
+import { map, range, sortBy, sum } from 'lodash'
 import { withStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -153,47 +153,55 @@ function view (props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {map(props.participants, (p, i) => (
-              <TableRow key={i}>
-                {adminMode && (
-                  <TableCell onClick={() => deletePlayer(p)}> X</TableCell>
-                )}
-                <TableCell
-                  className={[classes.cell, classes.nameCell].join(' ')}
-                  onClick={() => adminMode && goToPlayerScorecard(p)}
-                >
-                  {getDisplayName(p.name)}
-                </TableCell>
-                <TableCell
-                  className={[
-                    classes.cell,
-                    classes.overallCell,
-                    classes.endCell
-                  ].join(' ')}
-                >
-                  {calculateOverall(p.scores).display}
-                </TableCell>
-                {map(range(28), hole => {
-                  const { first, second } = determineStyle(p.scores[hole], hole)
-                  return (
-                    <TableCell
-                      className={[
-                        classes.cell,
-                        hole % 7 + 1 === 7 ? classes.endCell : ''
-                      ].join(' ')}
-                      key={hole}
-                    >
-                      <span className={classes[first] || ''}>
-                        <span className={classes[second] || ''}>
-                          {p.scores[hole] || ''}
+            {map(
+              sortBy(props.participants, p => calculateOverall(p.scores).raw),
+              (p, i) => (
+                <TableRow key={i}>
+                  {adminMode && (
+                    <TableCell onClick={() => deletePlayer(p)}> X</TableCell>
+                  )}
+                  <TableCell
+                    className={[classes.cell, classes.nameCell].join(' ')}
+                    onClick={() => adminMode && goToPlayerScorecard(p)}
+                  >
+                    {getDisplayName(p.name)}
+                  </TableCell>
+                  <TableCell
+                    className={[
+                      classes.cell,
+                      classes.overallCell,
+                      classes.endCell
+                    ].join(' ')}
+                  >
+                    {calculateOverall(p.scores).display}
+                  </TableCell>
+                  {map(range(28), hole => {
+                    const { first, second } = determineStyle(
+                      p.scores[hole],
+                      hole
+                    )
+                    return (
+                      <TableCell
+                        className={[
+                          classes.cell,
+                          hole % 7 + 1 === 7 ? classes.endCell : ''
+                        ].join(' ')}
+                        key={hole}
+                      >
+                        <span className={classes[first] || ''}>
+                          <span className={classes[second] || ''}>
+                            {p.scores[hole] || ''}
+                          </span>
                         </span>
-                      </span>
-                    </TableCell>
-                  )
-                })}
-                <TableCell className={classes.cell}>{sum(p.scores)}</TableCell>
-              </TableRow>
-            ))}
+                      </TableCell>
+                    )
+                  })}
+                  <TableCell className={classes.cell}>
+                    {sum(p.scores)}
+                  </TableCell>
+                </TableRow>
+              )
+            )}
           </TableBody>
         </Table>
       </div>
