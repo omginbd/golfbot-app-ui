@@ -117,7 +117,7 @@ function view (props) {
         <TableHead>
           <TableRow>
             <TableCell className={classes.cell}>Hole</TableCell>
-            <TableCell className={classes.cell}>Dist</TableCell>
+            <TableCell className={classes.cell}>Dist (Feet)</TableCell>
             <TableCell className={classes.cell}>Par</TableCell>
             <TableCell className={classes.cell}>Score</TableCell>
           </TableRow>
