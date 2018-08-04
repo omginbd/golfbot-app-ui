@@ -6,6 +6,8 @@ import View from './view'
 
 const ERR1 = 'Name cannot be blank'
 const ERR2 = 'Please enter your first and last name'
+const ERR3 = 'Please enter your full first and last name'
+const ERR4 = 'Please enter your full first and last name'
 
 export default class Home extends React.Component {
   constructor (props) {
@@ -41,6 +43,8 @@ export default class Home extends React.Component {
     // Validate Name
     if (!name) return this.setState({ error: ERR1 })
     if (name.split(' ').length !== 2) return this.setState({ error: ERR2 })
+    if (name.indexOf('.') !== -1) return this.setState({ error: ERR3 })
+    if (name.split(' ')[1].length === 1) return this.setState({ error: ERR4 })
 
     axios
       .post(`${process.env.API_HOST}/api/participants`, { name })
