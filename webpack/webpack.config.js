@@ -2,6 +2,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const webpack = require('webpack')
 
+const IS_PROD = process.env.NODE_ENV === 'production'
+
 module.exports = {
   mode: 'development',
   entry: './client/index.js',
@@ -30,8 +32,9 @@ module.exports = {
     }),
     new LodashModuleReplacementPlugin(),
     new webpack.DefinePlugin({
-      // 'process.env.API_HOST': '"https://api.wiffleball.xyz"'
-      'process.env.API_HOST': '"http://localhost:3000"'
+      'process.env.API_HOST': IS_PROD
+        ? '"https://api.wiffleball.xyz"'
+        : '"http://localhost:3000"'
     })
   ]
 }
