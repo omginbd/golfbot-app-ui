@@ -18,7 +18,7 @@ export default class Home extends React.Component {
       error: false
     }
 
-    lf.getItem('2018-golfbot-user-id').then(userId => {
+    lf.getItem('2019-golfbot-user-id').then(userId => {
       if (!userId) {
         this.setState({ loading: false })
       } else {
@@ -49,7 +49,7 @@ export default class Home extends React.Component {
     axios
       .post(`${process.env.API_HOST}/api/participants`, { name })
       .then(({ data }) => {
-        lf.setItem('2018-golfbot-user-id', data._id).then(() => {
+        lf.setItem('2019-golfbot-user-id', data._id).then(() => {
           history.push('/me')
         })
       })

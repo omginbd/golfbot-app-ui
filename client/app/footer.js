@@ -24,7 +24,7 @@ const style = {
 export default () => {
   return (
     <div style={style.wrapper}>
-      <div style={style.row}>© 2018 Poulton Golfers' Association</div>
+      <div style={style.row}>© 2019 Poulton Golfers' Association</div>
     </div>
   )
 }

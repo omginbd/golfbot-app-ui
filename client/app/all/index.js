@@ -17,6 +17,7 @@ export default class All extends React.Component {
 
     this.setupAdminMode()
 
+    this.getPlayerPlace = this.getPlayerPlace.bind(this)
     this.deletePlayer = this.deletePlayer.bind(this)
     this.fetchData = this.fetchData.bind(this)
     this.toggleAdminMode = this.toggleAdminMode.bind(this)
@@ -61,11 +62,33 @@ export default class All extends React.Component {
     score -= course.par * 4
     return {
       raw: score,
-      display:
-        score < 0 ? <div style={{ color: 'red' }}>{score}</div> : `+${score}`
+      display: (
+        <td
+          style={{
+            backgroundColor: score < 0 ? '#a80000' : 'green',
+            color: 'white',
+            display: 'table-cell',
+            fontWeight: '900',
+            height: '35px',
+            textAlign: 'center',
+            verticalAlign: 'middle'
+          }}
+        >
+          {score > 0 ? '+' : ''}
+          {score === 0 ? 'E' : score}
+        </td>
+      )
     }
   }
 
+  getPlayerPlace (i, allPlayers) {
+    if (
+      i !== 0 &&
+      this.calculateOverall(allPlayers[i].scores).raw ===
+        this.calculateOverall(allPlayers[i - 1].scores).raw
+    ) { return '\u00a0\u00a0\u00a0' }
+    return `${i + 1}.`
+  }
   deletePlayer (player) {
     axios
       .delete(`${process.env.API_HOST}/api/participants/${player._id}`)
@@ -109,6 +132,7 @@ export default class All extends React.Component {
         deletePlayer={this.deletePlayer}
         determineStyle={this.determineStyle}
         getDisplayName={this.getDisplayName}
+        getPlayerPlace={this.getPlayerPlace}
         goToPlayerScorecard={p => history.push(`/admin/${p._id}`)}
         participants={participants}
       />

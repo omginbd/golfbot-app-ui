@@ -23,7 +23,7 @@ export default class Me extends React.Component {
         .then(({ data: user }) => this.setState({ user, loading: false }))
     } else {
       lf
-        .getItem('2018-golfbot-user-id')
+        .getItem('2019-golfbot-user-id')
         .then(userId => {
           return axios.get(`${process.env.API_HOST}/api/participants/${userId}`)
         })

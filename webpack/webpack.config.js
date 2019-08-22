@@ -30,8 +30,8 @@ module.exports = {
     }),
     new LodashModuleReplacementPlugin(),
     new webpack.DefinePlugin({
-      'process.env.API_HOST': '"https://api.wiffleball.xyz"'
-      // 'process.env.API_HOST': '"http://localhost:3000"'
+      // 'process.env.API_HOST': '"https://api.wiffleball.xyz"'
+      'process.env.API_HOST': '"http://localhost:3000"'
     })
   ]
 }

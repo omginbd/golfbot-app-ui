@@ -81,7 +81,7 @@ class App extends React.Component {
   }
 
   clearSession () {
-    lf.removeItem('2018-golfbot-user-id')
+    lf.removeItem('2019-golfbot-user-id')
   }
 
   render () {

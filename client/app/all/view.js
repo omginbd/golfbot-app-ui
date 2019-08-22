@@ -1,4 +1,5 @@
-import { map, range, sortBy, sum } from 'lodash'
+import cx from 'classnames'
+import { map, range, sum } from 'lodash'
 import { withStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -9,20 +10,29 @@ import React from 'react'
 
 const styles = {
   cell: {
-    padding: '6px',
-    width: '20px'
+    fontSize: '1em',
+    padding: '2px',
+    width: '25px'
   },
   headerCell: {
     paddingLeft: '16px'
+  },
+  totalCell: {
+    borderBottom: '1px solid rgba(224, 224, 224, 1)',
+    borderRight: '1px solid black',
+    display: 'table-cell',
+    fontWeight: '900',
+    height: '35px',
+    textAlign: 'center'
   },
   endCell: {
     borderRight: '1px solid black'
   },
   nameCell: {
-    width: '75px'
+    width: '110px'
   },
   overallCell: {
-    width: '36px'
+    width: '75px'
   },
   table: {
     tableLayout: 'fixed'
@@ -40,30 +50,31 @@ const styles = {
     borderRadius: '50%',
     backgroundColor: 'black',
     display: 'block',
+    fontWeight: '500',
     height: '5px',
-    lineHeight: '20px',
+    lineHeight: '24px',
     paddingBottom: '20px',
     textAlign: 'center',
     width: '25px'
   },
   eagle: {
     borderRadius: '50%',
-    border: '4px double red',
-    color: 'red',
+    border: '4px double #a80000',
+    color: '#a80000',
     display: 'block',
     height: '5px',
-    lineHeight: '20px',
+    lineHeight: '24px',
     paddingBottom: '20px',
     textAlign: 'center',
     width: '25px'
   },
   birdie: {
-    border: '2px solid red',
+    border: '2px solid #a80000',
     borderRadius: '50%',
-    color: 'red',
+    color: '#a80000',
     display: 'block',
     height: '5px',
-    lineHeight: '20px',
+    lineHeight: '24px',
     paddingBottom: '20px',
     textAlign: 'center',
     width: '25px'
@@ -71,7 +82,7 @@ const styles = {
   par: {
     display: 'block',
     height: '5px',
-    lineHeight: '20px',
+    lineHeight: '24px',
     paddingBottom: '20px',
     textAlign: 'center',
     width: '25px'
@@ -81,7 +92,7 @@ const styles = {
     color: 'black',
     display: 'block',
     height: '5px',
-    lineHeight: '20px',
+    lineHeight: '24px',
     paddingBottom: '20px',
     textAlign: 'center',
     width: '25px'
@@ -91,7 +102,7 @@ const styles = {
     color: 'black',
     display: 'block',
     height: '5px',
-    lineHeight: '20px',
+    lineHeight: '24px',
     paddingBottom: '20px',
     textAlign: 'center',
     width: '25px'
@@ -116,6 +127,7 @@ function view (props) {
     deletePlayer,
     determineStyle,
     getDisplayName,
+    getPlayerPlace,
     goToPlayerScorecard
   } = props
   const sorted = props.participants.sort(
@@ -132,31 +144,34 @@ function view (props) {
                 Name
               </TableCell>
               <TableCell
+                className={[classes.cell, classes.overallCell].join(' ')}
+                style={{ textAlign: 'center' }}
+              >
+                Overall
+              </TableCell>
+              <TableCell
                 className={[
                   classes.cell,
                   classes.overallCell,
                   classes.endCell
                 ].join(' ')}
               >
-                Overall
+                Total
               </TableCell>
               {map(range(28), i => (
                 <TableCell
-                  className={[
-                    classes.cell,
-                    classes.headerCell,
-                    i % 7 + 1 === 7 ? classes.endCell : ''
-                  ].join(' ')}
+                  className={cx([classes.cell, classes.headerCell], {
+                    [classes.endCell]: (i + 1) % 7 === 0
+                  })}
                   key={i}
                 >
                   {i % 7 + 1}
                 </TableCell>
               ))}
-              <TableCell className={classes.cell}>Total</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {map(sorted, (p, i) => (
+            {map(sorted, (p, i, allPlayers) => (
               <TableRow key={i}>
                 {adminMode && (
                   <TableCell onClick={() => deletePlayer(p)}> X</TableCell>
@@ -165,25 +180,22 @@ function view (props) {
                   className={[classes.cell, classes.nameCell].join(' ')}
                   onClick={() => adminMode && goToPlayerScorecard(p)}
                 >
-                  {getDisplayName(p.name)}
+                  {getPlayerPlace(i, allPlayers)} {getDisplayName(p.name)}
                 </TableCell>
-                <TableCell
-                  className={[
-                    classes.cell,
-                    classes.overallCell,
-                    classes.endCell
-                  ].join(' ')}
+                {calculateOverall(p.scores).display}
+                <td
+                  className={classes.totalCell}
+                  style={{ verticalAlign: 'middle' }}
                 >
-                  {calculateOverall(p.scores).display}
-                </TableCell>
+                  {sum(p.scores)}
+                </td>
                 {map(range(28), hole => {
                   const { first, second } = determineStyle(p.scores[hole], hole)
                   return (
                     <TableCell
-                      className={[
-                        classes.cell,
-                        hole % 7 + 1 === 7 ? classes.endCell : ''
-                      ].join(' ')}
+                      className={cx(classes.cell, {
+                        [classes.endCell]: (hole + 1) % 7 === 0
+                      })}
                       key={hole}
                     >
                       <span className={classes[first] || ''}>
@@ -194,7 +206,6 @@ function view (props) {
                     </TableCell>
                   )
                 })}
-                <TableCell className={classes.cell}>{sum(p.scores)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
