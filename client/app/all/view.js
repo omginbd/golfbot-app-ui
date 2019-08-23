@@ -11,6 +11,7 @@ import React from 'react'
 const styles = {
   cell: {
     fontSize: '1em',
+    fontWeight: 'bold',
     padding: '2px',
     width: '25px'
   },
@@ -29,10 +30,12 @@ const styles = {
     borderRight: '1px solid black'
   },
   nameCell: {
-    width: '110px'
+    fontWeight: 'bold',
+    width: '125px'
   },
   overallCell: {
-    width: '75px'
+    textAlign: 'center',
+    width: '52px'
   },
   table: {
     tableLayout: 'fixed'
@@ -50,7 +53,6 @@ const styles = {
     borderRadius: '50%',
     backgroundColor: 'black',
     display: 'block',
-    fontWeight: '500',
     height: '5px',
     lineHeight: '24px',
     paddingBottom: '20px',
@@ -158,7 +160,34 @@ function view (props) {
               >
                 Total
               </TableCell>
-              {map(range(28), i => (
+              {map(range(4), i => (
+                <th
+                  colspan='7'
+                  className={cx([classes.cell, classes.endCell])}
+                  style={{
+                    width: '300px',
+                    borderBottom: '1px solid rgba(224, 224, 224, 1)',
+                    color: 'rgba(0, 0, 0, 0.54)'
+                  }}
+                >
+                  <div style={{ marginBottom: '8px', fontSize: '16px' }}>
+                    Round {i + 1}
+                  </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      width: '96%'
+                    }}
+                  >
+                    {map(range(7), j => (
+                      <span style={{ width: '25px' }}>{j + 1}</span>
+                    ))}
+                  </div>
+                </th>
+              ))}
+              {/* map(range(28), i => (
                 <TableCell
                   className={cx([classes.cell, classes.headerCell], {
                     [classes.endCell]: (i + 1) % 7 === 0
@@ -167,7 +196,7 @@ function view (props) {
                 >
                   {i % 7 + 1}
                 </TableCell>
-              ))}
+              )) */}
             </TableRow>
           </TableHead>
           <TableBody>

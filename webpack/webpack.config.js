@@ -5,7 +5,7 @@ const webpack = require('webpack')
 const IS_PROD = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  mode: 'development',
+  mode: IS_PROD ? 'production' : 'development',
   entry: './client/index.js',
   output: {
     path: `${process.cwd()}/dist/`,
