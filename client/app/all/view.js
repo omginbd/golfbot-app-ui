@@ -51,7 +51,7 @@ const styles = {
   ace: {
     color: 'white',
     borderRadius: '50%',
-    backgroundColor: 'black',
+    backgroundColor: '#a80000',
     display: 'block',
     height: '5px',
     lineHeight: '24px',
@@ -61,7 +61,7 @@ const styles = {
   },
   eagle: {
     borderRadius: '50%',
-    border: '4px double #a80000',
+    border: '4px solid #a80000',
     color: '#a80000',
     display: 'block',
     height: '5px',
@@ -100,7 +100,7 @@ const styles = {
     width: '25px'
   },
   doubleBogie: {
-    border: '4px double black',
+    border: '4px solid black',
     color: 'black',
     display: 'block',
     height: '5px',
@@ -110,14 +110,25 @@ const styles = {
     width: '25px'
   },
   tripleBogie: {
-    border: '1px solid black',
+    border: '6px solid black',
     color: 'black',
     display: 'block',
-    padding: '1px',
-    width: '33px'
+    height: '5px',
+    lineHeight: '24px',
+    paddingBottom: '20px',
+    textAlign: 'center',
+    width: '25px'
   },
   extraBogie: {
-    color: 'black'
+    color: 'white',
+    borderRadius: '50%',
+    backgroundColor: 'black',
+    display: 'block',
+    height: '5px',
+    lineHeight: '24px',
+    paddingBottom: '20px',
+    textAlign: 'center',
+    width: '25px'
   }
 }
 
@@ -187,16 +198,6 @@ function view (props) {
                   </div>
                 </th>
               ))}
-              {/* map(range(28), i => (
-                <TableCell
-                  className={cx([classes.cell, classes.headerCell], {
-                    [classes.endCell]: (i + 1) % 7 === 0
-                  })}
-                  key={i}
-                >
-                  {i % 7 + 1}
-                </TableCell>
-              )) */}
             </TableRow>
           </TableHead>
           <TableBody>

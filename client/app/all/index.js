@@ -65,7 +65,8 @@ export default class All extends React.Component {
       display: (
         <td
           style={{
-            backgroundColor: score < 0 ? '#a80000' : 'green',
+            backgroundColor: score < 0 ? '#a80000' : '#4d8741',
+            borderBottom: '1px solid rgb(224, 224, 224)',
             color: 'white',
             display: 'table-cell',
             fontWeight: '900',
@@ -86,7 +87,9 @@ export default class All extends React.Component {
       i !== 0 &&
       this.calculateOverall(allPlayers[i].scores).raw ===
         this.calculateOverall(allPlayers[i - 1].scores).raw
-    ) { return '\u00a0\u00a0\u00a0' }
+    ) {
+      return '\u00a0\u00a0\u00a0'
+    }
     return `${i + 1}.`
   }
   deletePlayer (player) {
@@ -112,7 +115,7 @@ export default class All extends React.Component {
       case 2:
         return { second: 'doubleBogie', first: '' }
       case 3:
-        return { second: 'doubleBogie', first: 'tripleBogie' }
+        return { second: 'tripleBogie', first: '' }
       case 4:
       case 5:
       case 6:
